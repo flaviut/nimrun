@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+
+# A wrapper around the nim compiler to allow for easy scriptability of Nim
+# scripts.
+#
+# Author: Flaviu Tamas <tamas.flaviu@gmail.com>
+
+output=$(mktemp -d)
+
+nim c --verbosity:0 \
+      --hints:off \
+      --out:"$output/executable" \
+      --nimcache:"$output/" \
+      "$1"
+
+# first argument is filename, not needed any more
+shift
+
+$output/executable $*
+returncode=$?
+
+rm -rf "$output"
+
+exit $returncode

@@ -4,14 +4,37 @@
 # all temporary files in a temporary directory and cleans up after itself.
 #
 # Usage:
-#  - add "#!/usr/bin/env nimrun" at the beginning of your script
-#  - execute the nim file with it, for example, "nimrun file.nim args"
+#  - add `#!/usr/bin/env nimrun` at the beginning of your script
+#  - execute the nim file with it, for example, `nimrun file.nim args`
 #
 # Possible future extentions:
 #  - cache compilation results for a while
 #  - configurable temporary directory
+#  - allow for custom `nim c` parameters
 #
 # Author: Flaviu Tamas <tamas.flaviu@gmail.com>
+
+
+# Copyright (c) 2014 Flaviu Tamas
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
 
 output=$(mktemp -d)
 trap "rm -rf $output" EXIT
@@ -25,6 +48,11 @@ nim c --verbosity:0 \
 # first argument is filename, not needed any more
 shift
 
-$output/executable $*
+compiler_exit=$?
 
-exit $?
+if $compiler_exit; then  # compile success
+  $output/executable $*
+  exit $?
+else  # compile fail
+  exit $compiler_exit
+fi

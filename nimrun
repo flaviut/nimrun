@@ -3,6 +3,10 @@
 # A wrapper around the Nim compiler to allow for easy scripting of Nim. Puts
 # all temporary files in a temporary directory and cleans up after itself.
 #
+# Usage:
+#  - add "#!/usr/bin/env nimrun" at the beginning of your script
+#  - execute the nim file with it, for example, "nimrun file.nim args"
+#
 # Possible future extentions:
 #  - cache compilation results for a while
 #  - configurable temporary directory

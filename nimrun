@@ -30,12 +30,12 @@ nim c --verbosity:0 \
       --nimcache:"$output/" \
       "$1"
 
+compiler_exit=$?
+
 # first argument is filename, not needed any more
 shift
 
-compiler_exit=$?
-
-if $compiler_exit; then  # compile success
+if [ "$compiler_exit" -eq 0 ]; then  # compile success
   $output/executable $*
   exit $?
 else  # compile fail

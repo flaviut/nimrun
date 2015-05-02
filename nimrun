@@ -36,7 +36,8 @@ compiler_exit=$?
 shift
 
 if [ "$compiler_exit" -eq 0 ]; then  # compile success
-  $output/executable $*
+  # "$@" is necessary to preserve whitespaces in arguments, which $* doesn't
+  $output/executable "$@"
   exit $?
 else  # compile fail
   exit $compiler_exit

@@ -20,12 +20,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# First try compilers which are known to be fast(er than GCC)
+if command -v tcc >/dev/null 2>&1; then
+  COMPILER=--cc:tcc
+elif command -v clang >/dev/null 2>&1; then
+  COMPILER=--cc:clang
+fi
 
 output=$(mktemp -d)
 trap "rm -rf $output" EXIT
 
 nim c --verbosity:0 \
       --hints:off \
+      $COMPILER \
       --out:"$output/executable" \
       --nimcache:"$output/" \
       "$1"

@@ -30,17 +30,16 @@ fi
 output=$(mktemp -d -t ${1}.XXXX)
 trap "rm -rf $output" EXIT
 
+[ "$1" = "-" ] && exec 3<"$1" && shift || exec 3<&0
+
 nim c --verbosity:0 \
       --hints:off \
       $COMPILER \
       --out:"$output/executable" \
       --nimcache:"$output/" \
-      "$1"
+      - <&3
 
 compiler_exit=$?
-
-# first argument is filename, not needed any more
-shift
 
 if [ "$compiler_exit" -eq 0 ]; then  # compile success
   # "$@" is necessary to preserve whitespaces in arguments, which $* doesn't

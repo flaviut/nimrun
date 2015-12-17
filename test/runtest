@@ -1,0 +1,6 @@
+#!/bin/sh
+
+../nimrun ./subdir/test.nim      1>&2 > /dev/null || echo fail 1
+../nimrun ./test.nim             1>&2 > /dev/null || echo fail 2
+../nimrun ./space\ dir/test.nim  1>&2 > /dev/null || echo fail 3
+../nimrun "./space dir/test.nim" 1>&2 > /dev/null || echo fail 4

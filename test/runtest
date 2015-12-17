@@ -1,6 +1,24 @@
 #!/bin/sh
 
-../nimrun ./subdir/test.nim      1>&2 > /dev/null || echo fail 1
-../nimrun ./test.nim             1>&2 > /dev/null || echo fail 2
-../nimrun ./space\ dir/test.nim  1>&2 > /dev/null || echo fail 3
-../nimrun "./space dir/test.nim" 1>&2 > /dev/null || echo fail 4
+TOTAL_NO=1
+FAIL_NO=0
+
+fail() {
+  echo "fail $TOTAL_NO"
+  ((FAIL_NO  += 1))
+  ((TOTAL_NO += 1))
+}
+
+success() {
+  echo "success $TOTAL_NO"
+  ((TOTAL_NO += 1))
+}
+
+
+../nimrun ./subdir/test.nim      1>&2 > /dev/null && success || fail
+../nimrun ./test.nim             1>&2 > /dev/null && success || fail
+../nimrun ./space\ dir/test.nim  1>&2 > /dev/null && success || fail
+../nimrun "./space dir/test.nim" 1>&2 > /dev/null && success || fail
+
+
+exit $FAIL_NO

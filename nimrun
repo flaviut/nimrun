@@ -27,7 +27,7 @@ elif command -v clang >/dev/null 2>&1; then
   COMPILER=--cc:clang
 fi
 
-output=$(mktemp -d -t ${1}.XXXX)
+output=$(mktemp -d -t -- `basename ${1}`.XXXX)
 trap "rm -rf $output" EXIT
 
 nim c --verbosity:0 \

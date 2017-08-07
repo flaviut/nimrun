@@ -4,8 +4,10 @@ A wrapper around the Nim compiler to allow for easy scripting of Nim. Puts
 all temporary files in a temporary directory and cleans up after itself.
 
 This script is implemented in shell. If you'd like a pure Nim implementation,
-check out Jeff Ciesielski's nimr, which can be installed by just running
-`nimble install nimr`!
+[check out Jeff Ciesielski's nimr][jeff-nimr], which can be installed by just
+running `nimble install nimr`!
+
+[jeff-nimr]: https://github.com/Jeff-Ciesielski/nimr
 
 # Usage
 1. Download the script from [here][nimrun] and add it to your path.
